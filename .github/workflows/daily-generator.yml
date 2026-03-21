@@ -1,0 +1,47 @@
+name: Daily Content Generator
+
+on:
+  schedule:
+    # UTC 时间每天 18:00 = 北京时间次日凌晨 2:00
+    - cron: '0 18 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+
+    - name: Generate content
+      run: |
+        python generator.py
+
+    - name: Check for changes
+      id: verify
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+        fi
+      shell: bash
+
+    - name: Commit changes
+      if: steps.verify.outputs.changed == 'true'
+      run: |
+        git config --local user.email "mindon@outlook.com"
+        git config --local user.name "Clavis"
+        git add .
+        git commit -m "Auto: Daily content generation $(date +'%Y-%m-%d')"
+        git push
