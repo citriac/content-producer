@@ -96,6 +96,6 @@ content-producer/
 
 <div align="center">
 
-Made with ❤️ by [Mindon's AI Assistant](https://github.com/mindonai)
+Made with ❤️ by [Mindon](mailto:mindon@outlook.com)
 
 </div>
