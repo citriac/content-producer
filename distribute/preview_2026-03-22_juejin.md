@@ -13,92 +13,91 @@
 📊 2026-03-22 技术热点日报更新！
 
 今日趋势速览:
-• HN 社区今日讨论热点集中在 **基础设施 / 编程语言/框架** 领域
-• 高频词汇：`rust`, `some`, `things`, `just`, `take`
-• 今日内容热度较高，平均热度 126.9 分，社区参与度活跃
+• HN 社区今日讨论热点集中在 **AI/LLM / 基础设施** 领域
+• 高频词汇：`running`, `energy`, `future`, `version`, `control`
+• 今日内容热度较高，平均热度 159.1 分，社区参与度活跃
 
 
 
 ## 🔍 详细内容
 # 技术热点日报 | 2026-03-22
 
-> 自动采集 · 2026-03-22 08:39 生成  
+> 自动采集 · 2026-03-22 23:58 生成  
 > 来源：Hacker News 15 条 + GitHub Trending 12 个项目
 
 ## 📊 今日趋势速览
 
-**热门领域**：AI/LLM　·　编程语言　·　开发工具
+**热门领域**：AI/LLM　·　开发工具　·　基础设施
 
-**高频词汇**：`built`　`rust`　`user`　`open-source`　`emulator`　`clawteam`
+**高频词汇**：`code`　`running`　`claude`　`knowledge`　`flash-moe`　`model`
 
 ## 🔥 Hacker News 热点
 
 | # | 标题 | 热度 | 评论 |
 |---|------|------|------|
-| 1 | [Some things just take time](https://lucumr.pocoo.org/2026/3/20/some-things-just-take-time/) | ⬆ 486 | [💬 163](https://news.ycombinator.com/item?id=47467537) |
-| 2 | [Do Not Turn Child Protection into Internet Access Control](https://news.dyne.org/child-protection-is-not-access-control/) | ⬆ 418 | [💬 189](https://news.ycombinator.com/item?id=47470991) |
-| 3 | [Tinybox – Offline AI device 120B parameters](https://tinygrad.org/#tinybox) | ⬆ 260 | [💬 153](https://news.ycombinator.com/item?id=47470773) |
-| 4 | [Grafeo – A fast, lean, embeddable graph database built in Rust](https://grafeo.dev/) | ⬆ 183 | [💬 58](https://news.ycombinator.com/item?id=47467567) |
-| 5 | [How Invisalign became the biggest user of 3D printers](https://www.wired.com/story/how-invisalign-became-the-worlds-biggest-3d-printing-company/) | ⬆ 132 | [💬 94](https://news.ycombinator.com/item?id=47435028) |
-| 6 | [Professional video editing, right in the browser with WebGPU and WASM](https://tooscut.app/) | ⬆ 104 | [💬 27](https://news.ycombinator.com/item?id=47471601) |
-| 7 | [Electronics for Kids, 2nd Edition](https://nostarch.com/electronics-for-kids-2e) | ⬆ 84 | [💬 13](https://news.ycombinator.com/item?id=47434986) |
-| 8 | [Show HN: Termcraft – terminal-first 2D sandbox survival in Rust](https://github.com/pagel-s/termcraft) | ⬆ 80 | [💬 9](https://news.ycombinator.com/item?id=47469949) |
-| 9 | [Floci – A free, open-source local AWS emulator](https://github.com/hectorvent/floci) | ⬆ 41 | [💬 5](https://news.ycombinator.com/item?id=47471801) |
-| 10 | [Bayesian statistics for confused data scientists](https://nchagnet.pages.dev/blog/bayesian-statistics-for-confused-data-scientists/) | ⬆ 34 | [💬 3](https://news.ycombinator.com/item?id=47428953) |
-| 11 | [Boomloom: Think with your hands](https://www.theboomloom.com) | ⬆ 27 | [💬 0](https://news.ycombinator.com/item?id=47457570) |
-| 12 | [The Impact of AI on Game Dev Jobs. Open to Work Crisis](https://darkounity.com/blog-post?id=the-impact-of-ai-on-game-dev-jobs-open-to-work-crisis--1774128585922) | ⬆ 25 | [💬 4](https://news.ycombinator.com/item?id=47471943) |
+| 1 | [The future of version control](https://bramcohen.com/p/manyana) | ⬆ 366 | [💬 214](https://news.ycombinator.com/item?id=47478401) |
+| 2 | [Project Nomad – Knowledge That Never Goes Offline](https://www.projectnomad.us) | ⬆ 344 | [💬 97](https://news.ycombinator.com/item?id=47476821) |
+| 3 | [Flash-MoE: Running a 397B Parameter Model on a Laptop](https://github.com/danveloper/flash-moe) | ⬆ 289 | [💬 100](https://news.ycombinator.com/item?id=47476422) |
+| 4 | [PC Gamer recommends RSS readers in a 37mb article that just keeps downloading](https://stuartbreckenridge.net/2026-03-19-pc-gamer-recommends-rss-readers-in-a-37mb-article/) | ⬆ 249 | [💬 117](https://news.ycombinator.com/item?id=47480507) |
+| 5 | [Reports of code's death are greatly exaggerated](https://stevekrouse.com/precision) | ⬆ 207 | [💬 193](https://news.ycombinator.com/item?id=47476315) |
+| 6 | [Why I love NixOS](https://www.birkey.co/2026-03-22-why-i-love-nixos.html) | ⬆ 159 | [💬 126](https://news.ycombinator.com/item?id=47479751) |
+| 7 | [GrapheneOS will remain usable by anyone without requiring personal information](https://grapheneos.social/@GrapheneOS/116261301913660830) | ⬆ 151 | [💬 33](https://news.ycombinator.com/item?id=47482217) |
+| 8 | [MAUI Is Coming to Linux](https://avaloniaui.net/blog/maui-avalonia-preview-1) | ⬆ 140 | [💬 66](https://news.ycombinator.com/item?id=47478687) |
+| 9 | [The gold standard of optimization: A look under the hood of RollerCoaster Tycoon](https://larstofus.com/2026/03/22/the-gold-standard-of-optimization-a-look-under-the-hood-of-rollercoaster-tycoon/) | ⬆ 132 | [💬 47](https://news.ycombinator.com/item?id=47480886) |
+| 10 | [Five Years of Running a Systems Reading Group at Microsoft](https://armaansood.com/posts/systems-reading-group/) | ⬆ 104 | [💬 28](https://news.ycombinator.com/item?id=47479627) |
+| 11 | [Diverse perspectives on AI from Rust contributors and maintainers](https://nikomatsakis.github.io/rust-project-perspectives-on-ai/feb27-summary.html) | ⬆ 89 | [💬 37](https://news.ycombinator.com/item?id=47482825) |
+| 12 | [Iran war energy crisis is a renewable energy wake-up call](https://apnews.com/article/middle-east-wars-renewable-energy-asia-4b5fe0693ce5816472c905db85f7da6e) | ⬆ 72 | [💬 54](https://news.ycombinator.com/item?id=47482667) |
 
 ### 重点关注
 
-**[Some things just take time](https://lucumr.pocoo.org/2026/3/20/some-things-just-take-time/)**  
-热度 486 · 评论 163 · 作者 vaylian  
+**[The future of version control](https://bramcohen.com/p/manyana)**  
+热度 366 · 评论 214 · 作者 c17r  
 
-**[Do Not Turn Child Protection into Internet Access Control](https://news.dyne.org/child-protection-is-not-access-control/)**  
-热度 418 · 评论 189 · 作者 smartmic  
+**[Project Nomad – Knowledge That Never Goes Offline](https://www.projectnomad.us)**  
+热度 344 · 评论 97 · 作者 jensgk  
 
-**[Tinybox – Offline AI device 120B parameters](https://tinygrad.org/#tinybox)**  
-热度 260 · 评论 153 · 作者 albelfio  
+**[Flash-MoE: Running a 397B Parameter Model on a Laptop](https://github.com/danveloper/flash-moe)**  
+热度 289 · 评论 100 · 作者 mft_  
 
 ## 🚀 GitHub 本周新项目 TOP
 
 **1. [HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam)** `Python`  
-   ⭐ 2,468 stars  
+   ⭐ 2,804 stars  
    > ClawTeam: Agent Swarm Intelligence (One Command → Full Automation)
 
 **2. [VoltAgent/awesome-codex-subagents](https://github.com/VoltAgent/awesome-codex-subagents)**  
-   ⭐ 1,979 stars  
+   ⭐ 2,060 stars  
    > A collection of 130+ specialized Codex subagents covering a wide range of development use cases.  
    `ai-agents` `awesome-list` `chatgpt`
 
-**3. [lcoutodemos/clui-cc](https://github.com/lcoutodemos/clui-cc)** `TypeScript`  
-   ⭐ 966 stars  
+**3. [MiniMax-AI/skills](https://github.com/MiniMax-AI/skills)** `C#`  
+   ⭐ 1,695 stars
+
+**4. [danveloper/flash-moe](https://github.com/danveloper/flash-moe)** `Objective-C`  
+   ⭐ 1,162 stars  
+   > Running a big model on a small laptop
+
+**5. [math-inc/OpenGauss](https://github.com/math-inc/OpenGauss)** `Python`  
+   ⭐ 1,016 stars
+
+**6. [lcoutodemos/clui-cc](https://github.com/lcoutodemos/clui-cc)** `TypeScript`  
+   ⭐ 1,007 stars  
    > Clui CC — Command Line User Interface for Claude Code
 
-**4. [mattprusak/autoresearch-genealogy](https://github.com/mattprusak/autoresearch-genealogy)**  
-   ⭐ 841 stars  
+**7. [lxf746/any-auto-register](https://github.com/lxf746/any-auto-register)** `Python`  
+   ⭐ 973 stars
+
+**8. [dontbesilent2025/dbskill](https://github.com/dontbesilent2025/dbskill)**  
+   ⭐ 884 stars  
+   > dontbesilent 的商业诊断 Skills for Claude Code
+
+**9. [mattprusak/autoresearch-genealogy](https://github.com/mattprusak/autoresearch-genealogy)**  
+   ⭐ 877 stars  
    > Structured prompts, vault templates, and archive guides for AI-assisted genealogy research. Built for Claude Code.
 
-**5. [lxf746/any-auto-register](https://github.com/lxf746/any-auto-register)** `Python`  
-   ⭐ 790 stars
-
-**6. [math-inc/OpenGauss](https://github.com/math-inc/OpenGauss)** `Python`  
-   ⭐ 770 stars
-
-**7. [frank890417/taiwan-md](https://github.com/frank890417/taiwan-md)** `Astro`  
-   ⭐ 698 stars  
-   > 🇹🇼 讓全世界完整認識台灣 | An open-source, AI-friendly knowledge base about Taiwan
-
-**8. [BryanLunduke/DoesItAgeVerify](https://github.com/BryanLunduke/DoesItAgeVerify)**  
-   ⭐ 618 stars  
-   > The age verification status of Open Source Operating Systems
-
-**9. [truongduy2611/app-store-preflight-skills](https://github.com/truongduy2611/app-store-preflight-skills)**  
-   ⭐ 591 stars  
+**10. [truongduy2611/app-store-preflight-skills](https://github.com/truongduy2611/app-store-preflight-skills)**  
+   ⭐ 825 stars  
    > AI agent skill to scan iOS/macOS projects for App Store rejection patterns before submission
-
-**10. [nv-tlabs/kimodo](https://github.com/nv-tlabs/kimodo)** `Python`  
-   ⭐ 583 stars  
-   > Official implementation of Kimodo, a kinematic motion diffusion model for high-quality human(oid) motion generation.
 
 ---
 

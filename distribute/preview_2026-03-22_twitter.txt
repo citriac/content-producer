@@ -11,8 +11,8 @@ https://citriac.github.io/content-producer/#/daily/2026-03-22
 
 Tweet 2:
 📈 Today's Trends:
-1. HN 社区今日讨论热点集中在 **基础设施 / 编程语言/框架** 领域
-2. 高频词汇：`rust`, `some`, `things`, `just`, `take`
+1. HN 社区今日讨论热点集中在 **AI/LLM / 基础设施** 领域
+2. 高频词汇：`running`, `energy`, `future`, `version`, `control`
 
 ------------------------------
 

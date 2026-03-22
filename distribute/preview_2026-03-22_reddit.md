@@ -11,9 +11,9 @@
 
 **Top Hacker News Stories**:
 
-- [Some things just take time](https://lucumr.pocoo.org/2026/3/20/some-things-just-take-time/)
-- [Do Not Turn Child Protection into Internet Access Control](https://news.dyne.org/child-protection-is-not-access-control/)
-- [Tinybox – Offline AI device 120B parameters](https://tinygrad.org/#tinybox)
+- [The future of version control](https://bramcohen.com/p/manyana)
+- [Project Nomad – Knowledge That Never Goes Offline](https://www.projectnomad.us)
+- [Flash-MoE: Running a 397B Parameter Model on a Laptop](https://github.com/danveloper/flash-moe)
 
 
 

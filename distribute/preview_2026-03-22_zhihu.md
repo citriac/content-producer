@@ -14,17 +14,17 @@
 
 基于今日数据，我观察到以下技术趋势:
 
-1. HN 社区今日讨论热点集中在 **基础设施 / 编程语言/框架** 领域
+1. HN 社区今日讨论热点集中在 **AI/LLM / 基础设施** 领域
 
-2. 高频词汇：`rust`, `some`, `things`, `just`, `take`
+2. 高频词汇：`running`, `energy`, `future`, `version`, `control`
 
-3. 今日内容热度较高，平均热度 126.9 分，社区参与度活跃
+3. 今日内容热度较高，平均热度 159.1 分，社区参与度活跃
 
-4. GitHub 本周新项目主要使用 **Python / TypeScript**
+4. GitHub 本周新项目主要使用 **Python / C#**
 
 5. 热门标签：`ai-agents`, `awesome-list`, `chatgpt`, `codex`
 
-6. 本周最受关注新项目：[HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam)，⭐ 2,468 stars
+6. 本周最受关注新项目：[HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam)，⭐ 2,804 stars
 
 7. 🔥 AI/LLM 持续占据技术圈热点，开发者关注度不减
 
