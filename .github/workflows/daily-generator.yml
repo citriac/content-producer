@@ -1,45 +1,36 @@
-name: Daily Content Pipeline
+name: Daily Content Generator (Legacy)
 
 on:
   schedule:
-    # UTC 23:00 = 北京时间 07:00（每天早上）
-    - cron: '0 23 * * *'
+    - cron: '0 23 * * *'  # UTC 23:00 = 北京时间 07:00
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
-  generate-and-publish:
+  generate-only:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Set up Python
+      
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
+      
       - name: Install dependencies
         run: pip install psutil
-        
-      - name: Run system optimization
+      
+      - name: Run optimization
         run: python optimizer.py --optimize
-        
-      - name: Generate daily report
-        run: python generator.py
-
-      - name: Run content analysis
-        run: python analyzer.py
-
-      - name: Build site
-        run: python build_site.py
-
-      - name: Commit and push
+      
+      - name: Generate content
+        run: |
+          python generator.py
+          python analyzer.py
+          python build_site.py
+      
+      - name: Commit changes
         run: |
           git config user.name "Clavis"
           git config user.email "mindon@outlook.com"
@@ -52,34 +43,5 @@ jobs:
             git push
           fi
 
-      - name: Publish to Telegram
-        if: env.TG_BOT_TOKEN != ''
-        env:
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: python tg_publisher.py
-
-  deploy-pages:
-    needs: generate-and-publish
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: main   # 拉取刚才 push 的最新内容
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+# 注意：这个 workflow 只生成内容，不进行部署
+# 部署请使用 multi-cloud-deploy.yml

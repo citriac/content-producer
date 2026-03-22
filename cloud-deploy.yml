@@ -1,0 +1,271 @@
+# 多云部署配置
+# 基于 cloud-ops 技能的最佳实践
+
+version: '2026.1'
+project:
+  name: "content-producer"
+  description: "技术热点日报生成器"
+  type: "static-site"
+
+# 部署目标优先级
+deployment_targets:
+  primary: "cloudflare_pages"    # 主要：无带宽限制，全球边缘
+  secondary: 
+    - "vercel"                   # 次选：Next.js 优化好（如果需要）
+    - "github_pages"             # 备份：完全免费，开源友好
+  backup:
+    - "aliyun_oss"               # 国内备份（如果需要国内访问）
+
+# 构建配置
+build:
+  command: "python build_site.py && echo 'Site built successfully'"
+  directory: "docs"
+  artifacts:
+    - "docs/**"
+    - "docs/.nojekyll"
+  
+  # 优化设置
+  optimization:
+    image_optimization: true
+    minify_html: true
+    minify_css: true
+    minify_js: true
+  
+  # 缓存策略
+  cache:
+    enabled: true
+    key: "content-producer-{{ hashFiles('package-lock.json', 'requirements.txt') }}"
+    paths:
+      - "node_modules/"
+      - ".python_packages/"
+
+# 各平台特定配置
+platforms:
+  cloudflare_pages:
+    project_name: "content-producer"
+    build_command: "python build_site.py"
+    output_directory: "docs"
+    environment_variables:
+      NODE_VERSION: "18"
+    compatibility_date: "2026-03-22"
+    
+    # Cloudflare 特定优化
+    optimization:
+      auto_minify:
+        html: true
+        css: true
+        js: true
+      browser_cache_ttl: 86400  # 24小时
+      
+    # 路由规则（SPA 支持）
+    routes:
+      - pattern: "/*"
+        serve: "/index.html"
+        status: 200
+
+  vercel:
+    project_name: "content-producer"
+    framework: "static"
+    output_directory: "docs"
+    
+    # Vercel 优化
+    rewrites:
+      - source: "/(.*)"
+        destination: "/index.html"
+    
+    # 避免 Next.js 特定优化（因为是静态站点）
+    ignore_command: "echo 'Static site, skipping framework detection'"
+
+  github_pages:
+    # GitHub Pages 自动通过 Actions 部署
+    # 只需要确保 docs/ 目录存在
+    enabled: true
+    branch: "main"
+    directory: "docs"
+    
+    # 自定义域名（可选）
+    custom_domain: null
+
+# 成本优化配置
+cost_optimization:
+  budget:
+    monthly_limit: 0  # 完全使用免费层
+    alert_threshold: 0.8
+    
+  monitoring:
+    enabled: true
+    check_interval_hours: 24
+    platforms_to_monitor:
+      - "cloudflare"
+      - "vercel"
+      - "github"
+    
+  # 免费层使用策略
+  free_tier_strategy:
+    cloudflare:
+      max_daily_requests: 90000  # 留10%余量
+      optimize_images: true
+      enable_caching: true
+      
+    vercel:
+      max_bandwidth_gb: 90      # 留10%余量
+      max_build_minutes: 5400   # 留10%余量
+      
+    github:
+      public_repo_only: true    # 确保是公共仓库
+
+# 健康检查配置
+health_check:
+  enabled: true
+  endpoints:
+    - url: "https://content-producer.pages.dev"
+      expected_status: 200
+      timeout_seconds: 10
+      check_interval_minutes: 60
+      
+    - url: "https://content-producer.vercel.app"
+      expected_status: 200
+      timeout_seconds: 10
+      check_interval_minutes: 60
+      
+  notifications:
+    email: false
+    slack: false
+    telegram: false
+
+# 备份策略
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # 每天凌晨2点
+  targets:
+    - type: "github"
+      repository: "citriac/content-producer"
+      branch: "backup"
+      
+    - type: "local"
+      directory: "./backups"
+      retention_days: 7
+
+# 安全配置
+security:
+  secret_management:
+    use_environment_variables: true
+    never_commit_secrets: true
+    
+  cdn_security:
+    cloudflare:
+      security_level: "medium"
+      browser_check: true
+      challenge_ttl: 1800
+      
+  access_control:
+    github: "public"
+    cloudflare: "public"
+    vercel: "public"
+
+# 性能优化
+performance:
+  cdn:
+    cloudflare:
+      rocket_loader: true
+      mirage: true
+      polish: "lossless"
+      
+  caching:
+    static_assets:
+      max_age: 31536000  # 1年
+      
+    html_pages:
+      max_age: 3600      # 1小时
+      stale_while_revalidate: 86400  # 24小时
+      
+  compression:
+    brotli: true
+    gzip: true
+
+# 分析集成
+analytics:
+  google_analytics: false
+  plausible: false
+  cloudflare_web_analytics: true  # 免费
+  
+  # 自定义事件追踪
+  custom_events:
+    daily_report_generated:
+      enabled: true
+      provider: "cloudflare"
+      
+    api_usage:
+      enabled: true
+      provider: "cloudflare"
+
+# 部署工作流
+workflow:
+  # 触发条件
+  triggers:
+    - type: "schedule"
+      cron: "0 7 * * *"  # 每天7点（北京时间）
+      
+    - type: "push"
+      branches:
+        - "main"
+        
+    - type: "manual"
+      
+  # 步骤顺序
+  steps:
+    - name: "代码检查"
+      commands:
+        - "python -m py_compile *.py"
+        - "flake8 . --max-line-length=120"
+        
+    - name: "系统优化"
+      commands:
+        - "python optimizer.py --optimize"
+        
+    - name: "内容生成"
+      commands:
+        - "python generator.py"
+        - "python analyzer.py"
+        - "python build_site.py"
+        
+    - name: "验证构建"
+      commands:
+        - "test -f docs/index.html"
+        - "test -f docs/data/latest.json"
+        
+    - name: "多云部署"
+      parallel: true
+      platforms:
+        - "cloudflare_pages"
+        - "vercel"
+        - "github_pages"
+        
+    - name: "验证部署"
+      commands:
+        - "curl -s -o /dev/null -w '%{http_code}' https://content-producer.pages.dev | grep 200"
+        - "curl -s -o /dev/null -w '%{http_code}' https://content-producer.vercel.app | grep 200"
+        
+    - name: "成本检查"
+      commands:
+        - "python -c 'from scripts.cost_optimizer import CloudCostOptimizer; optimizer = CloudCostOptimizer(); optimizer.generate_report([\"cloudflare\", \"vercel\", \"github\"])'"
+        
+    - name: "通知"
+      commands:
+        - "python tg_publisher.py"
+
+# 文档链接
+documentation:
+  cloud_ops_skill: "https://skills.sh/cloud-ops"
+  deployment_guides:
+    cloudflare: "https://developers.cloudflare.com/pages/"
+    vercel: "https://vercel.com/docs"
+    github_pages: "https://docs.github.com/en/pages"
+  cost_optimization: "https://cloud.google.com/cost-management/docs"
+  
+# 维护信息
+maintenance:
+  contact: "mindon@outlook.com"
+  repository: "https://github.com/citriac/content-producer"
+  last_updated: "2026-03-22"
+  next_review: "2026-04-22"
