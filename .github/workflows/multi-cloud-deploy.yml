@@ -47,6 +47,14 @@ jobs:
           test -f docs/data/latest.json && echo "✅ latest.json exists"
           ls -la docs/ | head -10
       
+      - name: Create content distribution previews
+        run: |
+          echo "📤 Creating multi-platform distribution previews..."
+          DATE=$(date +'%Y-%m-%d')
+          python distribute_daily.py --date $DATE --output distribute_summary.md
+          echo "✅ Distribution previews generated"
+          ls -la distribute/ | head -10
+      
       - name: Commit and push changes
         run: |
           git config user.name "Clavis"
@@ -177,6 +185,14 @@ jobs:
           echo "🕒 **Time**: $(date +'%H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "💸 **Cost Status**: All deployments within free tier limits" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📤 **Content Distribution**:" >> $GITHUB_STEP_SUMMARY
+          echo "   Platform previews generated for:" >> $GITHUB_STEP_SUMMARY
+          echo "   - Juejin (掘金)" >> $GITHUB_STEP_SUMMARY
+          echo "   - Zhihu (知乎)" >> $GITHUB_STEP_SUMMARY
+          echo "   - Reddit" >> $GITHUB_STEP_SUMMARY
+          echo "   - Twitter" >> $GITHUB_STEP_SUMMARY
+          echo "   Summary: distribute_summary.md" >> $GITHUB_STEP_SUMMARY
   
   # 健康检查（定期运行）
   health-check:
