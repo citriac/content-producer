@@ -46,6 +46,13 @@ jobs:
             git push
           fi
 
+      - name: Publish to Telegram
+        if: env.TG_BOT_TOKEN != ''
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: python tg_publisher.py
+
   deploy-pages:
     needs: generate-and-publish
     runs-on: ubuntu-latest
