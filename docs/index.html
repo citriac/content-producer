@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术热点日报 · Clavis</title>
+<meta name="description" content="每日自动抓取 Hacker News + GitHub Trending，生成技术热点日报">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --accent: #58a6ff;
+    --green: #3fb950;
+    --orange: #f0883e;
+    --red: #f85149;
+    --tag-bg: #1f3a5f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ── */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .site-header .logo {
+    font-size: 17px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .site-header .logo span { font-size: 22px; }
+  .header-links { display: flex; gap: 16px; font-size: 13px; color: var(--text2); }
+  .header-links a { color: var(--text2); }
+  .header-links a:hover { color: var(--text); }
+
+  .layout {
+    max-width: 1100px; margin: 0 auto;
+    padding: 32px 20px;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 32px;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar { position: sticky; top: 72px; align-self: start; }
+  .sidebar h3 {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--text2); margin-bottom: 10px;
+  }
+  .archive-list { list-style: none; }
+  .archive-list li { margin-bottom: 2px; }
+  .archive-list a {
+    display: block; padding: 6px 10px; border-radius: 6px;
+    color: var(--text2); font-size: 13px;
+    transition: background .15s, color .15s;
+  }
+  .archive-list a:hover, .archive-list a.active {
+    background: var(--bg3); color: var(--text); text-decoration: none;
+  }
+  .archive-list .date-label { font-family: monospace; font-size: 12px; }
+
+  /* ── Main content ── */
+  .main-content { min-width: 0; }
+
+  /* ── Stat bar ── */
+  .stat-bar {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .stat {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+  }
+  .stat .num { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .stat .label { color: var(--text2); }
+
+  /* ── Sections ── */
+  .section {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 20px; overflow: hidden;
+  }
+  .section-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg3);
+  }
+  .section-header h2 { font-size: 15px; font-weight: 600; }
+  .section-header .badge {
+    background: var(--tag-bg); color: var(--accent);
+    font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500;
+  }
+
+  /* ── Trend tags ── */
+  .trend-wrap { padding: 14px 20px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .trend-tag {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 12px; font-size: 13px;
+  }
+  .trend-tag.hot { border-color: var(--orange); color: var(--orange); }
+  .trend-tag.kw { color: var(--text2); font-family: monospace; font-size: 12px; }
+
+  /* ── Story table ── */
+  .story-list { list-style: none; }
+  .story-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 10px; align-items: start;
+  }
+  .story-item:last-child { border-bottom: none; }
+  .story-rank {
+    font-size: 13px; color: var(--text2); font-weight: 600;
+    text-align: right; padding-top: 1px;
+  }
+  .story-title a { font-size: 14px; font-weight: 500; line-height: 1.4; }
+  .story-meta { font-size: 12px; color: var(--text2); margin-top: 3px; }
+  .story-meta a { color: var(--text2); font-size: 12px; }
+  .story-meta a:hover { color: var(--accent); }
+  .score-badge {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 3px 9px;
+    font-size: 12px; font-weight: 600; color: var(--orange);
+    white-space: nowrap;
+  }
+
+  /* ── Repo grid ── */
+  .repo-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px; background: var(--border);
+  }
+  .repo-card {
+    background: var(--bg2); padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .repo-name { font-size: 14px; font-weight: 600; }
+  .repo-name a { color: var(--accent); }
+  .repo-desc { font-size: 13px; color: var(--text2); line-height: 1.5; flex: 1; }
+  .repo-footer { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .repo-stars { font-size: 12px; color: var(--orange); font-weight: 600; }
+  .repo-lang {
+    font-size: 11px; background: var(--tag-bg); color: var(--accent);
+    border-radius: 4px; padding: 1px 7px;
+  }
+  .repo-topics { display: flex; gap: 4px; flex-wrap: wrap; }
+  .repo-topic {
+    font-size: 11px; color: var(--text2);
+    background: var(--bg3); border-radius: 4px; padding: 1px 6px;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center; padding: 32px 20px;
+    color: var(--text2); font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+  .site-footer a { color: var(--text2); }
+  .site-footer a:hover { color: var(--accent); }
+
+  /* ── Loading ── */
+  #loading {
+    text-align: center; padding: 60px 20px; color: var(--text2);
+  }
+  .spinner {
+    width: 32px; height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .story-item { grid-template-columns: 28px 1fr; }
+    .score-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo"><span>📡</span> 技术热点日报</div>
+  <nav class="header-links">
+    <a href="https://github.com/citriac/content-producer" target="_blank">GitHub</a>
+    <a href="https://clavis-hn-api.citriac.deno.net" target="_blank">API</a>
+    <a href="https://github.com/sponsors/citriac" target="_blank">❤ 支持</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>历史归档</h3>
+    <ul class="archive-list" id="archive-list">
+      <li><span style="color:var(--text2);font-size:13px;padding:6px 10px;display:block">加载中…</span></li>
+    </ul>
+  </aside>
+
+  <main class="main-content" id="main-content">
+    <div id="loading">
+      <div class="spinner"></div>
+      <div>正在加载日报…</div>
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  由 <a href="https://github.com/citriac" target="_blank">Clavis</a> 自动生成 ·
+  每日更新 ·
+  数据来源：<a href="https://news.ycombinator.com" target="_blank">Hacker News</a> +
+  <a href="https://github.com/trending" target="_blank">GitHub</a> ·
+  <a href="https://github.com/sponsors/citriac" target="_blank">赞助支持</a>
+</footer>
+
+<script>
+// ── 日报数据索引（由 Python 脚本自动更新） ──
+const REPORTS = ["2026-03-22"];
+
+// ── 简易 Markdown 转 HTML（仅用于备用纯文本模式） ──
+function mdToText(md) {
+  return md.replace(/^#{1,6}\s+/gm, '').replace(/\*\*(.*?)\*\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+}
+
+// ── 渲染归档列表 ──
+function renderArchive(dates, activeDate) {
+  const ul = document.getElementById('archive-list');
+  ul.innerHTML = dates.map(d => `
+    <li><a href="#${d}" class="${d === activeDate ? 'active' : ''}" onclick="loadReport('${d}');return false;">
+      <span class="date-label">${d}</span>
+    </a></li>
+  `).join('');
+}
+
+// ── 渲染日报主体 ──
+function renderReport(data) {
+  const { date, hn = [], github = [], trends = {} } = data;
+  const hotCats = trends.hot_categories || [];
+  const keywords = trends.top_keywords || [];
+
+  let html = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;">
+    <h1 style="font-size:20px;font-weight:700;">📅 ${date} 技术热点日报</h1>
+    <span style="font-size:12px;color:var(--text2);">自动采集 · 每日 07:00 更新</span>
+  </div>`;
+
+  // stat bar
+  html += `<div class="stat-bar">
+    <div class="stat"><span class="num">${hn.length}</span><span class="label">HN 热点</span></div>
+    <div class="stat"><span class="num">${github.length}</span><span class="label">GitHub 新项目</span></div>
+    <div class="stat"><span class="num">${hotCats.length ? hotCats[0][0] : '—'}</span><span class="label">最热领域</span></div>
+  </div>`;
+
+  // 趋势速览
+  if (hotCats.length || keywords.length) {
+    html += `<div class="section">
+      <div class="section-header"><h2>📊 今日趋势速览</h2></div>
+      <div class="trend-wrap">
+        ${hotCats.slice(0,4).map(([c]) => `<span class="trend-tag hot">${c}</span>`).join('')}
+        ${keywords.slice(0,8).map(([k]) => `<span class="trend-tag kw">${k}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // HN 热点
+  if (hn.length) {
+    html += `<div class="section">
+      <div class="section-header">
+        <h2>🔥 Hacker News 热点</h2>
+        <span class="badge">${hn.length} 条</span>
+      </div>
+      <ul class="story-list">`;
+    hn.forEach((s, i) => {
+      const hnLink = `https://news.ycombinator.com/item?id=${s.id}`;
+      html += `<li class="story-item">
+        <span class="story-rank">${i+1}</span>
+        <div>
+          <div class="story-title"><a href="${s.url}" target="_blank" rel="noopener">${escHtml(s.title)}</a></div>
+          <div class="story-meta">
+            by ${escHtml(s.by || 'unknown')} ·
+            <a href="${hnLink}" target="_blank">💬 ${s.descendants || 0} 评论</a>
+          </div>
+        </div>
+        <div class="score-badge">⬆ ${s.score}</div>
+      </li>`;
+    });
+    html += `</ul></div>`;
+  }
+
+  // GitHub
+  if (github.length) {
+    html += `<div class="section">
+      <div class="section-header">
+        <h2>🚀 GitHub 本周新项目 TOP</h2>
+        <span class="badge">${github.length} 个</span>
+      </div>
+      <div class="repo-grid">`;
+    github.forEach(r => {
+      const topics = (r.topics || []).slice(0,3).map(t => `<span class="repo-topic">${t}</span>`).join('');
+      const lang = r.language && r.language !== 'Unknown' ? `<span class="repo-lang">${r.language}</span>` : '';
+      html += `<div class="repo-card">
+        <div class="repo-name"><a href="${r.url}" target="_blank" rel="noopener">${escHtml(r.name)}</a></div>
+        ${r.description ? `<div class="repo-desc">${escHtml(r.description)}</div>` : ''}
+        <div class="repo-footer">
+          <span class="repo-stars">⭐ ${(r.stars||0).toLocaleString()}</span>
+          ${lang}
+        </div>
+        ${topics ? `<div class="repo-topics">${topics}</div>` : ''}
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  document.getElementById('main-content').innerHTML = html;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── 加载指定日期的日报 ──
+async function loadReport(date) {
+  document.getElementById('main-content').innerHTML =
+    '<div id="loading"><div class="spinner"></div><div>加载中…</div></div>';
+
+  // 更新 archive 高亮
+  document.querySelectorAll('.archive-list a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + date);
+  });
+
+  try {
+    const res = await fetch(`data/${date}.json`);
+    if (!res.ok) throw new Error('not found');
+    const raw = await res.json();
+
+    // 整合结构：兼容新旧格式
+    const hnStories = raw.hn_stories || [];
+    const ghRepos = raw.gh_repos || raw.github_repos || [];
+    const trends = raw.trends || {};
+
+    renderReport({ date, hn: hnStories, github: ghRepos, trends });
+    window.location.hash = date;
+  } catch(e) {
+    document.getElementById('main-content').innerHTML =
+      `<div style="padding:40px;color:var(--text2);text-align:center;">
+        暂无 ${date} 的日报数据
+        <br><br><a href="#" onclick="loadReport(REPORTS[0]);return false;" style="color:var(--accent)">查看最新日报</a>
+       </div>`;
+  }
+}
+
+// ── 初始化 ──
+(function init() {
+  const dates = REPORTS;
+  if (!dates || !dates.length) {
+    document.getElementById('main-content').innerHTML =
+      '<div style="padding:40px;text-align:center;color:var(--text2);">暂无数据</div>';
+    return;
+  }
+
+  const hashDate = window.location.hash.replace('#','');
+  const initDate = dates.includes(hashDate) ? hashDate : dates[0];
+
+  renderArchive(dates, initDate);
+  loadReport(initDate);
+})();
+</script>
+</body>
+</html>
