@@ -14,17 +14,17 @@
 
 基于今日数据，我观察到以下技术趋势:
 
-1. HN 社区今日讨论热点集中在 **编程语言/框架 / 开发工具** 领域
+1. HN 社区今日讨论热点集中在 **开发工具 / AI/LLM** 领域
 
-2. 高频词汇：`gamer`, `recommends`, `rss`, `readers`, `article`
+2. 高频词汇：`github`, `stack`, `claude`, `code`, `iphone`
 
-3. 今日内容热度较高，平均热度 225.0 分，社区参与度活跃
+3. 今日内容热度较高，平均热度 119.2 分，社区参与度活跃
 
 4. GitHub 本周新项目主要使用 **Python / C#**
 
 5. 热门标签：`ai-agents`, `awesome-list`, `chatgpt`, `codex`
 
-6. 本周最受关注新项目：[HKUDS/ClawTeam](https://github.com/HKUDS/ClawTeam)，⭐ 3,029 stars
+6. 本周最受关注新项目：[MiniMax-AI/skills](https://github.com/MiniMax-AI/skills)，⭐ 3,246 stars
 
 7. 🔥 AI/LLM 持续占据技术圈热点，开发者关注度不减
 

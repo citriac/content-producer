@@ -11,9 +11,9 @@
 
 **Top Hacker News Stories**:
 
-- [PC Gamer recommends RSS readers in a 37mb article that just keeps downloading](https://stuartbreckenridge.net/2026-03-19-pc-gamer-recommends-rss-readers-in-a-37mb-article/)
-- [The future of version control](https://bramcohen.com/p/manyana)
-- [Reports of code's death are greatly exaggerated](https://stevekrouse.com/precision)
+- [iPhone 17 Pro Demonstrated Running a 400B LLM](https://twitter.com/anemll/status/2035901335984611412)
+- [Two pilots dead after plane and ground vehicle collide at LaGuardia](https://www.bbc.com/news/articles/cy01g522ww4o)
+- [Autoresearch on an old research idea](https://ykumar.me/blog/eclip-autoresearch/)
 
 
 

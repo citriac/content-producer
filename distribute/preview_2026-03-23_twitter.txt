@@ -11,8 +11,8 @@ https://citriac.github.io/content-producer/#/daily/2026-03-23
 
 Tweet 2:
 📈 Today's Trends:
-1. HN 社区今日讨论热点集中在 **编程语言/框架 / 开发工具** 领域
-2. 高频词汇：`gamer`, `recommends`, `rss`, `readers`, `article`
+1. HN 社区今日讨论热点集中在 **开发工具 / AI/LLM** 领域
+2. 高频词汇：`github`, `stack`, `claude`, `code`, `iphone`
 
 ------------------------------
 
