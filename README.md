@@ -1,92 +1,149 @@
-# 技术热点日报 · Clavis Content Producer
+# content-producer
 
 <div align="center">
 
-**每天 07:00 自动抓取 Hacker News + GitHub Trending，生成技术日报**
+**Automated daily tech digest: Hacker News + GitHub Trending → Markdown + web, every morning at 7am.**
 
-[![Daily Pipeline](https://github.com/citriac/content-producer/actions/workflows/daily-generator.yml/badge.svg)](https://github.com/citriac/content-producer/actions/workflows/daily-generator.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
+[![No dependencies](https://img.shields.io/badge/dependencies-none-green.svg)](requirements.txt)
 
-[🌐 在线阅读](https://citriac.github.io/content-producer) · [📡 API 服务](https://clavis-hn-api.citriac.deno.net) · [❤ 赞助](https://github.com/sponsors/citriac)
+[📖 Read the Article](https://citriac.github.io/how-i-built-daily-tech-digest.html) · [🌐 Live Output](https://citriac.github.io/daily.html) · [❤ Sponsor](https://github.com/sponsors/citriac)
 
 </div>
 
 ---
 
-## 功能
+A Python pipeline that runs daily (no external dependencies, no API keys required) and produces:
 
-- 🔥 **Hacker News 热点**：Top 15，按热度排序，带评论数
-- 🚀 **GitHub Trending**：过去 7 天最热新项目，多语言覆盖
-- 📊 **趋势分析**：自动提取技术领域热点（AI/LLM、Rust、安全等）
-- 🌐 **在线展示站**：GitHub Pages，每日自动更新
-- ⚡ **零干预运行**：GitHub Actions 全自动，不依赖本地机器
+- A curated Markdown digest of the top 15 HN stories + 12 trending GitHub repos
+- A trend analysis JSON (dominant topics, hot categories, keyword frequencies)
+- Updated GitHub Pages website
 
-## 在线阅读
+**No database. No framework. No dependencies outside stdlib.**
 
-👉 **https://citriac.github.io/content-producer**
+## How It Works
 
-## API
-
-所有数据通过 **[Clavis Tech API](https://clavis-hn-api.citriac.deno.net)** 对外开放：
-
-```bash
-# 今日摘要（HN + GitHub）
-curl https://clavis-hn-api.citriac.deno.net/daily
-
-# HN 热点
-curl "https://clavis-hn-api.citriac.deno.net/hn/top?limit=10"
-
-# GitHub 近期热门（按语言筛选）
-curl "https://clavis-hn-api.citriac.deno.net/gh/trending?language=python"
+```
+07:00 trigger
+    │
+    ▼
+generator.py      ←── HN Firebase API + GitHub Search API
+    │   writes: posts/YYYY-MM-DD.md
+    │           data/hn-stories-*.json, data/github-trending-*.json
+    ▼
+analyzer.py       ←── reads today's data/*.json
+    │   writes: data/analysis-YYYY-MM-DD.json
+    ▼
+publish_to_github_pages.py
+        git add + commit + push → citriac.github.io updated ✓
 ```
 
-## 本地运行
+## Quick Start
 
 ```bash
 git clone https://github.com/citriac/content-producer.git
 cd content-producer
 
-# 生成今日日报
+# Generate today's digest
 python3 generator.py
 
-# 分析趋势
+# Run trend analysis
 python3 analyzer.py
 
-# 构建展示站
-python3 build_site.py
+# Publish to GitHub Pages (optional)
+python3 publish_to_github_pages.py
 ```
 
-无需额外依赖，Python 3.8+ 即可运行。
+Requires Python 3.8+. Zero external dependencies.
 
-## 项目结构
+## Output Example
+
+**`posts/2026-03-23.md`** (excerpt):
+
+```markdown
+# Tech Digest | 2026-03-23
+
+> Auto-generated · 2026-03-23 07:07
+
+## 📊 Today's Trends
+
+**Hot topics**: Security  ·  AI/LLM  ·  Infrastructure
+**Keywords**: `cloudflare`  `security`  `windows`  `agent`
+
+## 🔥 Hacker News Top Stories
+
+| # | Title | Score | Comments |
+|---|-------|-------|----------|
+| 1 | [Cloudflare flags archive.today](https://...) | ⬆ 354 | 💬 257 |
+| 2 | [Windows native app dev is a mess](https://...) | ⬆ 295 | 💬 322 |
+...
+```
+
+**`data/analysis-2026-03-23.json`** (excerpt):
+
+```json
+{
+  "hn": {
+    "avg_score": 130.1,
+    "hot_categories": [["Security", 8], ["AI/LLM", 6]],
+    "top_keywords": [["cloudflare", 4], ["security", 3]]
+  },
+  "github": {
+    "top_languages": [["Python", 4], ["TypeScript", 3]],
+    "top_repos": [{"name": "HKUDS/ClawTeam", "stars": 2793}]
+  }
+}
+```
+
+## Project Structure
 
 ```
 content-producer/
-├── generator.py       # 主生成器（HN + GitHub 双源）
-├── analyzer.py        # 趋势分析器（关键词、领域分类）
-├── github_fetcher.py  # GitHub Search API 抓取
-├── build_site.py      # 站点构建器
-├── docs/              # GitHub Pages 站点
-│   ├── index.html     # 交互式日报阅读器
-│   └── data/          # 每日 JSON 数据
-├── posts/             # Markdown 格式日报
-├── data/              # 原始数据（HN/GitHub JSON）
-└── .github/workflows/ # 全自动定时任务
+├── generator.py              # Main pipeline: fetch HN + GitHub, generate digest
+├── analyzer.py               # Trend analysis: keywords, categories, insights
+├── build_site.py             # Prepare data files for GitHub Pages
+├── publish_to_github_pages.py # Copy data + git push to pages repo
+├── config.json               # Configuration (sources, limits, etc.)
+├── posts/                    # Markdown digests (one per day)
+├── data/                     # Raw JSON: HN stories, GitHub repos, analysis
+└── docs/                     # GitHub Pages data output
 ```
 
-## 支持项目
+## Scheduling
 
-如果这份日报对你有帮助：
+**Cron (simplest):**
+```bash
+0 7 * * * cd /path/to/content-producer && \
+  python3 generator.py && \
+  python3 analyzer.py && \
+  python3 publish_to_github_pages.py && \
+  git add posts/ && \
+  git commit -m "auto: daily report $(date +%Y-%m-%d)" && \
+  git push
+```
 
-- ⭐ **Star** 这个仓库
-- 💰 [**赞助**](https://github.com/sponsors/citriac)——资助更好的基础设施和模型
-- 📢 分享给感兴趣的朋友
+**GitHub Actions:** See `.github/workflows/` for a ready-to-use workflow.
+
+## Implementation Notes
+
+- **HN data**: Uses the [official Firebase API](https://github.com/HackerNews/API) — no auth, no rate limits for occasional use
+- **GitHub trending**: GitHub Search API with `created:>DATE&sort=stars` approximates the trending page
+- **Trend analysis**: Keyword frequency + hand-crafted category classifier (no LLM required)
+- **Publishing**: Plain `git push` to a separate GitHub Pages repo
+
+Full technical walkthrough: [How I Built a Daily Tech Digest That Runs Itself](https://citriac.github.io/how-i-built-daily-tech-digest.html)
+
+## Live Output
+
+👉 **https://citriac.github.io/daily.html** — updated daily
 
 ---
 
 <div align="center">
 
-由 [Clavis](https://github.com/citriac) 驱动 · MIT License
+Built by [Clavis](https://github.com/citriac) · MIT License
+
+If this is useful, consider ⭐ starring or [sponsoring](https://github.com/sponsors/citriac)
 
 </div>
