@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-03-22T23:58:32.191360",
+  "timestamp": "2026-03-23T12:14:38.545480",
   "system_state": {
     "cpu_percent": 0.0,
     "memory": {
       "total_mb": 15994,
-      "available_mb": 15112,
-      "percent": 5.5,
-      "used_mb": 882
+      "available_mb": 15133,
+      "percent": 5.4,
+      "used_mb": 861
     },
     "swap": {
       "total_mb": 3071,
@@ -15,18 +15,18 @@
     },
     "disk": {
       "total_gb": 144,
-      "used_gb": 54,
-      "free_gb": 89,
-      "percent": 37.6
+      "used_gb": 53,
+      "free_gb": 90,
+      "percent": 37.0
     },
     "processes": {
-      "total": 150,
+      "total": 164,
       "python": 3
     }
   },
   "recent_optimizations": [
     {
-      "timestamp": "2026-03-22T23:58:29.119908",
+      "timestamp": "2026-03-23T12:14:35.463405",
       "action": "process_optimization",
       "details": "No processes needed termination",
       "impact": {
@@ -35,46 +35,12 @@
         "terminated_pids": []
       },
       "system_state": {
-        "cpu_percent": 0.5,
-        "memory": {
-          "total_mb": 15994,
-          "available_mb": 15092,
-          "percent": 5.6,
-          "used_mb": 902
-        },
-        "swap": {
-          "total_mb": 3071,
-          "used_mb": 0,
-          "percent": 0.0
-        },
-        "disk": {
-          "total_gb": 144,
-          "used_gb": 54,
-          "free_gb": 89,
-          "percent": 37.6
-        },
-        "processes": {
-          "total": 150,
-          "python": 3
-        }
-      }
-    },
-    {
-      "timestamp": "2026-03-22T23:58:30.133831",
-      "action": "cache_optimization",
-      "details": "Cache sizes within limits, no cleanup needed",
-      "impact": {
-        "total_size_before_mb": 1.3038463592529297,
-        "total_size_after_mb": 1.3038463592529297,
-        "files_removed": 0
-      },
-      "system_state": {
         "cpu_percent": 0.0,
         "memory": {
           "total_mb": 15994,
-          "available_mb": 15097,
-          "percent": 5.6,
-          "used_mb": 896
+          "available_mb": 15122,
+          "percent": 5.5,
+          "used_mb": 871
         },
         "swap": {
           "total_mb": 3071,
@@ -83,30 +49,64 @@
         },
         "disk": {
           "total_gb": 144,
-          "used_gb": 54,
-          "free_gb": 89,
-          "percent": 37.6
+          "used_gb": 53,
+          "free_gb": 90,
+          "percent": 37.0
         },
         "processes": {
-          "total": 150,
+          "total": 164,
           "python": 3
         }
       }
     },
     {
-      "timestamp": "2026-03-22T23:58:31.182011",
+      "timestamp": "2026-03-23T12:14:36.478376",
+      "action": "cache_optimization",
+      "details": "Cache sizes within limits, no cleanup needed",
+      "impact": {
+        "total_size_before_mb": 1.3045501708984375,
+        "total_size_after_mb": 1.3045501708984375,
+        "files_removed": 0
+      },
+      "system_state": {
+        "cpu_percent": 0.5,
+        "memory": {
+          "total_mb": 15994,
+          "available_mb": 15125,
+          "percent": 5.4,
+          "used_mb": 869
+        },
+        "swap": {
+          "total_mb": 3071,
+          "used_mb": 0,
+          "percent": 0.0
+        },
+        "disk": {
+          "total_gb": 144,
+          "used_gb": 53,
+          "free_gb": 90,
+          "percent": 37.0
+        },
+        "processes": {
+          "total": 164,
+          "python": 3
+        }
+      }
+    },
+    {
+      "timestamp": "2026-03-23T12:14:37.534788",
       "action": "git_optimization",
       "details": "Git auto-gc completed; No old branches to prune; Git repository compressed",
       "impact": {
         "operations": 3
       },
       "system_state": {
-        "cpu_percent": 0.0,
+        "cpu_percent": 0.5,
         "memory": {
           "total_mb": 15994,
-          "available_mb": 15105,
-          "percent": 5.6,
-          "used_mb": 889
+          "available_mb": 15128,
+          "percent": 5.4,
+          "used_mb": 866
         },
         "swap": {
           "total_mb": 3071,
@@ -115,12 +115,12 @@
         },
         "disk": {
           "total_gb": 144,
-          "used_gb": 54,
-          "free_gb": 89,
-          "percent": 37.6
+          "used_gb": 53,
+          "free_gb": 90,
+          "percent": 37.0
         },
         "processes": {
-          "total": 150,
+          "total": 164,
           "python": 3
         }
       }
