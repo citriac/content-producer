@@ -18,11 +18,11 @@
 
 2. 高频词汇：`grep`, `opera`, `iphone`, `pro`, `demonstrated`
 
-3. 今日内容热度较高，平均热度 154.1 分，社区参与度活跃
+3. 今日内容热度较高，平均热度 174.8 分，社区参与度活跃
 
 4. GitHub 本周新项目主要使用 **Python / TypeScript**
 
-5. 本周最受关注新项目：[danveloper/flash-moe](https://github.com/danveloper/flash-moe)，⭐ 1,781 stars
+5. 本周最受关注新项目：[danveloper/flash-moe](https://github.com/danveloper/flash-moe)，⭐ 1,787 stars
 
 6. 🔥 AI/LLM 持续占据技术圈热点，开发者关注度不减
 
