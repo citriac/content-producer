@@ -1,35 +1,32 @@
 name: Daily Content Generator (Legacy)
+# 已由 multi-cloud-deploy.yml 取代，此 workflow 已禁用
+# Disabled: superseded by multi-cloud-deploy.yml
 
 on:
-  schedule:
-    - cron: '0 23 * * *'  # UTC 23:00 = 北京时间 07:00
-  workflow_dispatch:
+  workflow_dispatch:  # 仅保留手动触发，不再自动调度
 
 jobs:
   generate-only:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
-        run: pip install psutil
-      
-      - name: Run optimization
-        run: python optimizer.py --optimize
-      
+        run: pip install psutil requests
+
       - name: Generate content
         run: |
           python generator.py
           python analyzer.py
           python build_site.py
-      
+
       - name: Commit changes
         run: |
           git config user.name "Clavis"
@@ -42,6 +39,3 @@ jobs:
             git commit -m "auto: daily report ${DATE}"
             git push
           fi
-
-# 注意：这个 workflow 只生成内容，不进行部署
-# 部署请使用 multi-cloud-deploy.yml

@@ -1,61 +1,49 @@
-name: Multi-Cloud Deployment
+name: Daily Content & Deploy
 
 on:
   schedule:
-    # UTC 23:00 = 北京时间 07:00（每天早上）
-    - cron: '0 23 * * *'
+    - cron: '0 23 * * *'  # UTC 23:00 = 北京时间 07:00
   push:
     branches: [ main ]
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:
 
 permissions:
   contents: write
   pages: write
   id-token: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  # 第一阶段：构建和优化
-  build-and-optimize:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
-        run: |
-          pip install psutil requests
-          echo "Dependencies installed"
-      
-      - name: Run system optimization
-        run: python optimizer.py --optimize
-      
+        run: pip install psutil requests
+
       - name: Generate daily content
         run: |
           python generator.py
           python analyzer.py
           python build_site.py
-      
+
       - name: Verify build output
         run: |
-          test -f docs/index.html && echo "✅ index.html exists"
-          test -f docs/data/latest.json && echo "✅ latest.json exists"
-          ls -la docs/ | head -10
-      
-      - name: Create content distribution previews
-        run: |
-          echo "📤 Creating multi-platform distribution previews..."
-          DATE=$(date +'%Y-%m-%d')
-          python distribute_daily.py --date $DATE --output distribute_summary.md
-          echo "✅ Distribution previews generated"
-          ls -la distribute/ | head -10
-      
-      - name: Commit and push changes
+          test -f docs/index.html && echo "✅ index.html exists" || echo "⚠️ index.html missing"
+          test -f docs/data/latest.json && echo "✅ latest.json exists" || echo "⚠️ latest.json missing"
+
+      - name: Commit changes
         run: |
           git config user.name "Clavis"
           git config user.email "mindon@outlook.com"
@@ -67,170 +55,20 @@ jobs:
             git commit -m "auto: daily report ${DATE}"
             git push
           fi
-  
-  # 第二阶段：并行多云部署
-  deploy-cloudflare:
-    needs: build-and-optimize
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: content-producer
-          directory: docs
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Verify Cloudflare deployment
-        run: |
-          sleep 10  # 等待部署完成
-          curl -s -o /dev/null -w "Cloudflare: %{http_code}\n" https://content-producer.pages.dev
-  
-  deploy-vercel:
-    needs: build-and-optimize
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: docs
-      
-      - name: Verify Vercel deployment
-        run: |
-          sleep 10
-          curl -s -o /dev/null -w "Vercel: %{http_code}\n" https://content-producer.vercel.app
-  
-  deploy-github-pages:
-    needs: build-and-optimize
+          path: docs/
+
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: main  # 拉取刚才 push 的最新内容
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/
-      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      
-      - name: Verify GitHub Pages deployment
-        run: |
-          sleep 10
-          curl -s -o /dev/null -w "GitHub Pages: %{http_code}\n" https://citriac.github.io/content-producer
-  
-  # 第三阶段：成本检查和通知
-  cost-and-notify:
-    needs: [deploy-cloudflare, deploy-vercel, deploy-github-pages]
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install cost optimization tools
-        run: pip install requests
-      
-      - name: Run cost analysis
-        run: |
-          echo "📊 Running cloud cost analysis..."
-          # 这里可以集成 cost_optimizer.py
-          echo "All deployments within free tier limits ✓"
-      
-      - name: Publish to Telegram
-        if: env.TG_BOT_TOKEN != ''
-        env:
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-        run: python tg_publisher.py
-      
-      - name: Generate deployment report
-        run: |
-          echo "🌐 MULTI-CLOUD DEPLOYMENT COMPLETE" >> $GITHUB_STEP_SUMMARY
-          echo "==================================" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Cloudflare Pages**: https://content-producer.pages.dev" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Vercel**: https://content-producer.vercel.app" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **GitHub Pages**: https://citriac.github.io/content-producer" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📅 **Date**: $(date +'%Y-%m-%d')" >> $GITHUB_STEP_SUMMARY
-          echo "🕒 **Time**: $(date +'%H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "💸 **Cost Status**: All deployments within free tier limits" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📤 **Content Distribution**:" >> $GITHUB_STEP_SUMMARY
-          echo "   Platform previews generated for:" >> $GITHUB_STEP_SUMMARY
-          echo "   - Juejin (掘金)" >> $GITHUB_STEP_SUMMARY
-          echo "   - Zhihu (知乎)" >> $GITHUB_STEP_SUMMARY
-          echo "   - Reddit" >> $GITHUB_STEP_SUMMARY
-          echo "   - Twitter" >> $GITHUB_STEP_SUMMARY
-          echo "   Summary: distribute_summary.md" >> $GITHUB_STEP_SUMMARY
-  
-  # 健康检查（定期运行）
-  health-check:
-    if: github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    needs: cost-and-notify
-    
-    steps:
-      - name: Health check all endpoints
-        run: |
-          echo "🔍 Performing health checks..."
-          
-          endpoints=(
-            "https://content-producer.pages.dev"
-            "https://content-producer.vercel.app"
-            "https://citriac.github.io/content-producer"
-          )
-          
-          all_healthy=true
-          
-          for endpoint in "${endpoints[@]}"; do
-            status=$(curl -s -o /dev/null -w "%{http_code}" "$endpoint")
-            if [ "$status" = "200" ]; then
-              echo "✅ $endpoint: HTTP $status"
-            else
-              echo "❌ $endpoint: HTTP $status"
-              all_healthy=false
-            fi
-          done
-          
-          if [ "$all_healthy" = false ]; then
-            echo "⚠️ Some endpoints are not healthy"
-            # 这里可以添加通知逻辑
-          else
-            echo "🎉 All endpoints are healthy"
-          fi
-
-# 工作流配置
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
