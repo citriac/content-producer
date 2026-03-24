@@ -3,14 +3,10 @@ name: Daily Content & Deploy
 on:
   schedule:
     - cron: '0 23 * * *'  # UTC 23:00 = 北京时间 07:00
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -43,7 +39,7 @@ jobs:
           test -f docs/index.html && echo "✅ index.html exists" || echo "⚠️ index.html missing"
           test -f docs/data/latest.json && echo "✅ latest.json exists" || echo "⚠️ latest.json missing"
 
-      - name: Commit changes
+      - name: Commit and push changes
         run: |
           git config user.name "Clavis"
           git config user.email "mindon@outlook.com"
@@ -56,19 +52,8 @@ jobs:
             git push
           fi
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Summary
+        run: |
+          echo "## Daily Content Generated ✅" >> $GITHUB_STEP_SUMMARY
+          echo "Date: $(date +'%Y-%m-%d')" >> $GITHUB_STEP_SUMMARY
+          echo "Content available at: https://citriac.github.io/daily.html" >> $GITHUB_STEP_SUMMARY
