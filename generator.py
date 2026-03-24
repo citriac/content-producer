@@ -255,6 +255,23 @@ def main():
     )
     print(f"  ✓ 获取到 {len(gh_repos)} 个 GitHub 项目")
 
+    # 1.5. 运行市场信号扫描（轻量，不阻塞主流程）
+    try:
+        from hn_market_scanner import scan_show_hn, scan_ask_hn, analyze_opportunity
+        print("  正在扫描 HN 市场信号...")
+        show_hn = scan_show_hn(days=1, min_points=5)
+        ask_hn = scan_ask_hn(days=2)
+        market_report = analyze_opportunity(show_hn, ask_hn)
+        signals_file = DATA_DIR / f"hn-signals-{date}.json"
+        with open(signals_file, "w", encoding="utf-8") as f:
+            json.dump(market_report, f, ensure_ascii=False, indent=2)
+        print(f"  ✓ 市场信号已保存: {signals_file.name}")
+        if market_report["top_topics"]:
+            top = market_report["top_topics"][0]
+            print(f"    今日最热话题: {top['topic']} ({top['mentions']} 次提及)")
+    except Exception as e:
+        print(f"  [warn] 市场信号扫描失败（不影响日报）: {e}")
+
     if not hn_stories and not gh_repos:
         print("  [!] 未获取到任何数据，退出")
         return 1
