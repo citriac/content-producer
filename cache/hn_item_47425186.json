@@ -1,0 +1,22 @@
+{
+  "by": "ramimac",
+  "descendants": 10,
+  "id": 47425186,
+  "kids": [
+    47475532,
+    47475455,
+    47475138,
+    47475185
+  ],
+  "score": 25,
+  "time": 1773838395,
+  "title": "It's Their Mona Lisa",
+  "type": "story",
+  "url": "https://ironicsans.ghost.io/its-t-mona-lisa/",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:27.521669",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

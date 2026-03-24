@@ -1,0 +1,37 @@
+{
+  "by": "shaicoleman",
+  "descendants": 52,
+  "id": 47471801,
+  "kids": [
+    47475886,
+    47473516,
+    47475182,
+    47475630,
+    47475669,
+    47472620,
+    47473399,
+    47475625,
+    47473530,
+    47475604,
+    47473591,
+    47474829,
+    47472789,
+    47474847,
+    47474231,
+    47473795,
+    47475547,
+    47473395,
+    47473832
+  ],
+  "score": 182,
+  "time": 1774129755,
+  "title": "Floci – A free, open-source local AWS emulator",
+  "type": "story",
+  "url": "https://github.com/hectorvent/floci",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:24.138729",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

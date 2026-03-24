@@ -1,0 +1,23 @@
+{
+  "by": "robhati",
+  "descendants": 7,
+  "id": 47474967,
+  "kids": [
+    47475854,
+    47475773,
+    47475626,
+    47475524,
+    47474968
+  ],
+  "score": 18,
+  "time": 1774160639,
+  "title": "HopTab–free,open source macOS app switcher and tiler that replaces Cmd+Tab",
+  "type": "story",
+  "url": "https://www.royalbhati.com/hoptab",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:26.320469",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

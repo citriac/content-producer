@@ -1,0 +1,19 @@
+{
+  "by": "PaulHoule",
+  "descendants": 1,
+  "id": 47432789,
+  "kids": [
+    47436512
+  ],
+  "score": 10,
+  "time": 1773877298,
+  "title": "Linking Smaller Haskell Binaries (2023)",
+  "type": "story",
+  "url": "https://brandon.si/code/linking-smaller-haskell-binaries/",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:24.467912",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "date": "2026-03-22",
+  "generated_at": "2026-03-22T17:49:14.305988",
+  "format": "markdown",
+  "file_path": "posts/2026-03-22.md",
+  "client_stats": {
+    "request_stats": {
+      "total_requests": 2,
+      "successful_requests": 0,
+      "failed_requests": 0,
+      "cache_hits": 2,
+      "fallback_used": 0
+    },
+    "endpoint_stats": {
+      "hacker_news": [
+        {
+          "name": "Hacker News Firebase API",
+          "enabled": true,
+          "priority": 1,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        },
+        {
+          "name": "Deno Deploy Hacker News API",
+          "enabled": true,
+          "priority": 2,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        },
+        {
+          "name": "HNPWA API",
+          "enabled": true,
+          "priority": 3,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        },
+        {
+          "name": "Hacker News HeroKu API",
+          "enabled": true,
+          "priority": 4,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        }
+      ],
+      "github_trending": [
+        {
+          "name": "GitHub REST API",
+          "enabled": true,
+          "priority": 1,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        },
+        {
+          "name": "Deno Deploy GitHub API",
+          "enabled": true,
+          "priority": 2,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        }
+      ],
+      "combined_daily": [
+        {
+          "name": "Deno Deploy Daily API",
+          "enabled": true,
+          "priority": 1,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        },
+        {
+          "name": "Hacker News Direct + GitHub",
+          "enabled": true,
+          "priority": 2,
+          "failure_count": 0,
+          "last_success": null,
+          "avg_response_time": 0.0,
+          "success_ratio": 1.0
+        }
+      ]
+    },
+    "timestamp": "2026-03-22T17:49:14.306131"
+  }
+}

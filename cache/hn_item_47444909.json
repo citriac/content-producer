@@ -1,0 +1,23 @@
+{
+  "by": "pooladkhay",
+  "descendants": 9,
+  "id": 47444909,
+  "kids": [
+    47475884,
+    47475520,
+    47475683,
+    47475527,
+    47475563
+  ],
+  "score": 80,
+  "time": 1773949867,
+  "title": "My first patch to the Linux kernel",
+  "type": "story",
+  "url": "https://pooladkhay.com/posts/first-kernel-patch/",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:21.265338",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

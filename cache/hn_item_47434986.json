@@ -1,0 +1,27 @@
+{
+  "by": "0x54MUR41",
+  "descendants": 34,
+  "id": 47434986,
+  "kids": [
+    47473211,
+    47474352,
+    47475243,
+    47471237,
+    47472413,
+    47474779,
+    47471488,
+    47473165,
+    47474864
+  ],
+  "score": 181,
+  "time": 1773894951,
+  "title": "Electronics for Kids, 2nd Edition",
+  "type": "story",
+  "url": "https://nostarch.com/electronics-for-kids-2e",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:26.641096",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

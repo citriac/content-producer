@@ -1,0 +1,31 @@
+{
+  "by": "winkelmann",
+  "descendants": 92,
+  "id": 47474255,
+  "kids": [
+    47474256,
+    47475319,
+    47474777,
+    47475374,
+    47474745,
+    47474461,
+    47475303,
+    47475001,
+    47474651,
+    47475355,
+    47475561,
+    47474826,
+    47475134
+  ],
+  "score": 157,
+  "time": 1774151031,
+  "title": "Cloudflare flags archive.today as \"C&C/Botnet\"; no longer resolves via 1.1.1.2",
+  "type": "story",
+  "url": "https://radar.cloudflare.com/domains/domain/archive.today",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:25.360529",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

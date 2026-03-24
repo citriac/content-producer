@@ -1,0 +1,24 @@
+{
+  "by": "speckx",
+  "descendants": 29,
+  "id": 47428953,
+  "kids": [
+    47473057,
+    47472709,
+    47475349,
+    47474677,
+    47474124,
+    47473972
+  ],
+  "score": 116,
+  "time": 1773856338,
+  "title": "Bayesian statistics for confused data scientists",
+  "type": "story",
+  "url": "https://nchagnet.pages.dev/blog/bayesian-statistics-for-confused-data-scientists/",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:25.999121",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}

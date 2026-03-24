@@ -1,0 +1,25 @@
+{
+  "by": "rayanpal_",
+  "descendants": 10,
+  "id": 47475155,
+  "kids": [
+    47475518,
+    47475443,
+    47475763,
+    47475816,
+    47475526,
+    47475677,
+    47475538
+  ],
+  "score": 19,
+  "time": 1774163235,
+  "title": "Cross-Model Void Convergence: GPT-5.2 and Claude Opus 4.6 Deterministic Silence",
+  "type": "story",
+  "url": "https://zenodo.org/records/18976656",
+  "_metadata": {
+    "api_type": "hacker_news",
+    "timestamp": "2026-03-22T17:48:21.581419",
+    "used_fallback": false,
+    "client": "SmartAPIClient/1.0"
+  }
+}
