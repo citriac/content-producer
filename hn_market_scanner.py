@@ -13,6 +13,13 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import time
 
+# Jina 增强抓取（可选，用于获取帖子全文）
+try:
+    from web_reader import fetch_page, fetch_page_json, extract_title_from_markdown
+    JINA_AVAILABLE = True
+except ImportError:
+    JINA_AVAILABLE = False
+
 PROJECT_ROOT = Path(__file__).parent
 DATA_DIR = PROJECT_ROOT / "data"
 DATA_DIR.mkdir(exist_ok=True)
@@ -192,8 +199,39 @@ def extract_insights(show_hn, ask_hn):
     
     return insights
 
-def analyze_opportunity(show_hn, ask_hn):
-    """给出今日机会评分"""
+def enrich_top_posts(posts, max_enrich=3):
+    """
+    用 Jina Reader 抓取最热帖子的全文，提取更丰富的信息。
+    只处理前 max_enrich 条，避免超出 Jina 每日限额。
+    """
+    if not JINA_AVAILABLE:
+        return posts
+    
+    enriched = 0
+    for post in posts:
+        if enriched >= max_enrich:
+            break
+        if post.get("points", 0) < 30:  # 只抓热门帖
+            continue
+        
+        try:
+            content = fetch_page(post["hn_url"], prefer_jina=True, timeout=12)
+            if content and len(content) > 500:
+                # 从全文中提取摘要（取正文前 500 字）
+                lines = [l for l in content.splitlines() if l.strip() and not l.startswith("#")]
+                body_preview = " ".join(lines[:8])[:400]
+                post["body_preview"] = body_preview
+                post["full_content_fetched"] = True
+                enriched += 1
+                time.sleep(0.5)
+        except Exception:
+            pass
+    
+    return posts
+
+
+def analyze_opportunity(show_hn, ask_hn, enrich=True):
+    """给出今日机会评分，可选用 Jina 增强全文抓取"""
     all_posts = show_hn + ask_hn
     
     # 统计话题频率
@@ -205,6 +243,11 @@ def analyze_opportunity(show_hn, ask_hn):
                 topic_counts[tag] = topic_counts.get(tag, 0) + 1
     
     top_topics = sorted(topic_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+
+    # 可选：用 Jina 抓取最热帖子全文
+    if enrich and JINA_AVAILABLE:
+        print("  [Jina] Enriching top posts with full content...")
+        show_hn = enrich_top_posts(show_hn, max_enrich=3)
     
     return {
         "date": datetime.now().strftime("%Y-%m-%d"),
@@ -214,6 +257,7 @@ def analyze_opportunity(show_hn, ask_hn):
         "show_hn_posts": show_hn,
         "ask_hn_posts": ask_hn,
         "insights": extract_insights(show_hn, ask_hn),
+        "jina_available": JINA_AVAILABLE,
     }
 
 def save_report(data):
