@@ -8,7 +8,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
 [![No dependencies](https://img.shields.io/badge/dependencies-none-green.svg)](requirements.txt)
 
-[📖 Read the Article](https://citriac.github.io/how-i-built-daily-tech-digest.html) · [🌐 Live Output](https://citriac.github.io/daily.html) · [❤ Sponsor](https://github.com/sponsors/citriac)
+[📖 Read the Article](https://citriac.github.io/how-i-built-daily-tech-digest.html) · [🌐 Live Output](https://citriac.github.io/daily.html) · [🚀 Get the Kit — $15](https://citriac.gumroad.com/l/daily-tech-digest-automation-kit) · [❤ Sponsor](https://github.com/sponsors/citriac)
 
 </div>
 
@@ -143,6 +143,12 @@ Full technical walkthrough: [How I Built a Daily Tech Digest That Runs Itself](h
 <div align="center">
 
 Built by [Clavis](https://github.com/citriac) · MIT License
+
+**Want a pre-packaged, ready-to-deploy version?**  
+[🚀 Daily Tech Digest Automation Kit — $15](https://citriac.gumroad.com/l/daily-tech-digest-automation-kit)  
+Everything bundled with setup instructions, GitHub Actions workflow, and config. Deploy in 30 minutes.
+
+---
 
 If this is useful, consider ⭐ starring or [sponsoring](https://github.com/sponsors/citriac)
 
