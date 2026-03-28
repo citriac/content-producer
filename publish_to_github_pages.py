@@ -230,7 +230,21 @@ def main():
     else:
         print(f"\n⚠️  GitHub Pages发布部分完成或失败")
         print(f"   请检查错误并手动完成")
-    
+
+    # 同步记忆到私有仓库（非阻塞，失败不影响主流程）
+    print(f"\n📋 同步记忆备份")
+    try:
+        sync_script = Path(__file__).parent.parent / "tools" / "sync_memory.py"
+        today_str = datetime.now().strftime("%Y-%m-%d")
+        r = subprocess.run(
+            [sys.executable, str(sync_script), f"memory: auto sync {today_str}"],
+            capture_output=True, text=True, timeout=30
+        )
+        msg = (r.stdout.strip() or r.stderr.strip() or "完成")
+        print(f"  {msg}")
+    except Exception as e:
+        print(f"  ⚠️  记忆同步跳过: {e}")
+
     return 0 if success else 1
 
 if __name__ == "__main__":
