@@ -17,6 +17,10 @@ CONTENT_DIR = PROJECT_ROOT / "docs"
 GITHUB_PAGES_DIR = Path("/Users/malt/WorkBuddy/Claw/github-pages")
 DATA_DIR = PROJECT_ROOT / "data"
 POSTS_DIR = PROJECT_ROOT / "posts"
+TOOLS_DIR = PROJECT_ROOT.parent / "tools"
+SURVIVAL_LOG_SCRIPT = TOOLS_DIR / "build_survival_log.py"
+WORKING_MEMORY_DIR = PROJECT_ROOT.parent / ".workbuddy" / "memory"
+SURVIVAL_LOG_OUTPUT = GITHUB_PAGES_DIR / "data" / "survival-log.json"
 
 def run_command(cmd, cwd=None, check=True):
     """运行命令并返回结果"""
@@ -61,6 +65,49 @@ def check_git_status():
         print(f"  ❌ 检查Git状态失败: {e}")
         return False
 
+
+def build_survival_log_data():
+    """构建 survival log 数据"""
+    print("  构建 survival log 数据...")
+
+    if not SURVIVAL_LOG_SCRIPT.exists():
+        print(f"  ⚠️  未找到脚本，跳过: {SURVIVAL_LOG_SCRIPT}")
+        return True
+
+    if not WORKING_MEMORY_DIR.exists():
+        print(f"  ⚠️  未找到工作记忆目录，跳过: {WORKING_MEMORY_DIR}")
+        return True
+
+    try:
+        result = subprocess.run(
+            [sys.executable, str(SURVIVAL_LOG_SCRIPT)],
+            cwd=PROJECT_ROOT.parent,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        if result.stdout.strip():
+            for line in result.stdout.strip().splitlines():
+                print(f"  {line}")
+        if result.stderr.strip():
+            for line in result.stderr.strip().splitlines():
+                print(f"  {line}")
+    except subprocess.CalledProcessError as e:
+        print(f"  ❌ survival log 构建失败: {e}")
+        if e.stdout:
+            print(f"  stdout: {e.stdout.strip()}")
+        if e.stderr:
+            print(f"  stderr: {e.stderr.strip()}")
+        return False
+
+    if not SURVIVAL_LOG_OUTPUT.exists():
+        print(f"  ❌ survival log 输出缺失: {SURVIVAL_LOG_OUTPUT}")
+        return False
+
+    print(f"  ✓ survival log 已更新: {SURVIVAL_LOG_OUTPUT.name}")
+    return True
+
+
 def update_website_data():
     """更新网站数据"""
     print("📊 更新网站数据...")
@@ -71,6 +118,9 @@ def update_website_data():
         run_command(f"python3 {PROJECT_ROOT / 'build_site.py'}")
     except Exception as e:
         print(f"  ❌ 构建站点失败: {e}")
+        return False
+
+    if not build_survival_log_data():
         return False
     
     # 复制最新的日报数据
